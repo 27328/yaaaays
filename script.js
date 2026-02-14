@@ -1,51 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Poppins:wght@300;600&display=swap');
+let clickCount = 0;
 
-body, html {
-    margin: 0; padding: 0; height: 100%;
-    background-color: #000; color: white;
-    font-family: 'Poppins', sans-serif; overflow: hidden;
+function startExperience() {
+    const btn = document.querySelector('#entrance button');
+    const title = document.querySelector('#entrance h1');
+    const player = document.getElementById('youtube-player');
+    
+    clickCount++;
+
+    // Wake up music
+    if (player) {
+        player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    }
+
+    if (clickCount < 4) {
+        if (clickCount === 1) {
+            title.innerText = "Patience is a virtue, Terry... 😉";
+            btn.style.transform = "translate(60px, -80px)";
+        } 
+        else if (clickCount === 2) {
+            title.innerText = "Are you even trying? 🔥";
+            btn.style.transform = "translate(-60px, -150px)";
+        } 
+        else if (clickCount === 3) {
+            title.innerText = "One more... because you're cute. 😏";
+            btn.style.transform = "translate(0px, -220px)";
+        }
+    } 
+    else {
+        document.getElementById('entrance').style.display = 'none';
+        nextLevel(1);
+        setInterval(createHeart, 400);
+    }
 }
 
-.level {
-    height: 100vh; width: 100%;
-    background-size: cover; background-position: center;
-    background-repeat: no-repeat;
-    display: none; flex-direction: column;
-    align-items: center; justify-content: center; /* Centered for better visibility */
-    position: fixed; top: 0; left: 0;
+function nextLevel(num) {
+    document.querySelectorAll('.level').forEach(sec => {
+        sec.style.display = 'none';
+        sec.classList.remove('active');
+    });
+    const target = document.getElementById('level' + num);
+    if (target) {
+        target.style.display = 'flex';
+        target.classList.add('active');
+    }
 }
 
-.level.active { display: flex; animation: fadeIn 1.2s ease-in-out; }
-
-.content {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    max-width: 80%;
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
 }
 
-.reveal-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic; font-size: 2rem;
-    text-shadow: 2px 2px 10px rgba(0,0,0,1);
+function createKiss(e) {
+    const kiss = document.createElement('div');
+    kiss.className = 'kiss';
+    kiss.innerHTML = '💋';
+    kiss.style.left = e.clientX + 'px';
+    kiss.style.top = e.clientY + 'px';
+    document.body.appendChild(kiss);
+    setTimeout(() => kiss.remove(), 2000);
 }
-
-button {
-    margin-top: 30px;
-    padding: 15px 40px;
-    border: none; border-radius: 50px;
-    background: #ff4d6d; color: white;
-    font-weight: bold; font-size: 1.1rem;
-    cursor: pointer;
-    /* This makes the jump look smooth */
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.heart, .kiss { position: fixed; pointer-events: none; z-index: 1000; }
-.heart { top: -10%; animation: fall 4s linear forwards; font-size: 1.5rem; }
-.kiss { animation: fly 2s forwards; font-size: 2.5rem; }
-
-@keyframes fall { to { transform: translateY(110vh); } }
-@keyframes fly { to { transform: translateY(-250px); opacity: 0; } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
