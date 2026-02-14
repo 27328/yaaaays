@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Poppins:wght@300;600&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #000;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden; /* Prevents scrolling so it feels like an app */
+}
+
+/* The Layout for every photo section */
+.level {
+    height: 100vh;
+    width: 100%;
+    background-size: cover; /* This makes the photo fill the entire screen */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: none; /* Hidden by default, shown by JS */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Pushes text to the bottom to keep Terry's face clear */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* The active class triggered by JavaScript */
+.level.active {
+    display: flex;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* The bottom text area with a dark fade for readability */
+.content {
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    width: 100%;
+    padding: 80px 20px 50px 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Terry's Message Style */
+.reveal-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 77, 109, 0.7);
+    margin-bottom: 10px;
+}
+
+/* The Pink Buttons */
+button {
+    margin-top: 20px;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    background: #ff4d6d;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    /* This makes the button "slide" smoothly when it teases her */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+}
+
+button:hover {
+    background: #ff758f;
+}
+
+/* Floating Hearts and Kisses */
+.heart, .kiss {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.heart {
+    top: -10%;
+    font-size: 1.5rem;
+    animation: fall 4s linear forwards;
+}
+
+.kiss {
+    font-size: 2.5rem;
+    animation: fly 2s forwards;
+}
+
+/* Animations */
+@keyframes fall {
+    to { transform: translateY(110vh); }
+}
+
+@keyframes fly {
+    to { 
+        transform: translateY(-250px) scale(1.5); 
+        opacity: 0; 
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
